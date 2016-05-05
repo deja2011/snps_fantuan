@@ -1,14 +1,19 @@
 # Create your views here.
 from django.shortcuts import render, render_to_response
 from django.template import RequestContext
-from django.http import HttpResponseRedirect
-from tuanapp.models import Tuan
+from django.http import HttpResponseRedirect, HttpResponse
+from tuanapp.models import Tuan, Person
+from tuanapp import models
+from django import forms
+from django.contrib import auth
+from django.contrib.auth.models import User
 
 def index(request):
 	warning1 = 'Are you Ready'
 	warning2 = 'for Tuan??'
 	alert_type = "alert-info"
 	tuan_list = Tuan.objects.all()
+	user = request.user
 	return render_to_response('index.html', locals() , context_instance = RequestContext(request))
 
 def create_tuan(request):
@@ -123,3 +128,51 @@ def delete(request):
 	tuan.delete()
 	tuan_list = Tuan.objects.all()
 	return render_to_response('index.html', locals(), context_instance = RequestContext(request))
+
+def acc_login(request):
+	username = request.POST.get('username')
+	password = request.POST.get('password')
+	user = auth.authenticate(username = username, password=password)
+	if user is not None:
+		auth.login(request,user)
+		content = '''
+			Welcome %s !!!
+			<a href = '/logout/' >Logout</a>
+			'''  % user.username
+		return HttpResponseRedirect('/index/')
+	else:
+		return render_to_response('login.html',{'login_err':'Warning: wrong name or wrong password!'},context_instance=RequestContext(request))
+
+def logout_view(request):
+	user= request.user
+	auth.logout(request)
+	return HttpResponse("<b>%s</b> logged out ! <br/><a href='/index/' >back to index</a>" % user)
+				
+def Login(request):
+	return render_to_response('login.html',context_instance=RequestContext(request))
+
+def register(request):
+	return render_to_response("register.html",context_instance=RequestContext(request))
+
+def register_create(request):
+	if request.method == "POST":
+		username = request.POST.get('username')
+		password1 = request.POST.get('password1')
+		password2 = request.POST.get('password2')
+		
+		filter_result = User.objects.filter(username = username)
+		if len(filter_result) >0:
+			return render_to_response("register.html", {'errors':"Username already exists, please try another username."},context_instance=RequestContext(request))
+
+		if password1 != password2:
+			return render_to_response('register.html',{'errors': "Two passwords differ, please try again."},context_instance=RequestContext(request))
+
+		user= User.objects.create_user(
+			username = username,
+			password = password1,
+			)
+		user.save
+		tuan_user = models.Person()
+		tuan_user.user_id = user.id
+		tuan_user.save()	
+		return HttpResponse("Register successfully!<br/><a href='/login/' >Login</a>")

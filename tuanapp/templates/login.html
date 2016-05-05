@@ -1,0 +1,11 @@
+
+<div>
+<form action='/acc_login/' method = 'POST'>{% csrf_token %}
+	<p>Username: <input type = 'text' name = 'username' /></p>
+	<br>
+	<p>Password: <input type = 'password' name ='password' /></p>
+	<br>
+	<input type = 'submit' value ='Login' />
+	<span style = 'color: red' >{{login_err}} </span>
+</form>
+</div>

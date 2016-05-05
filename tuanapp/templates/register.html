@@ -1,0 +1,19 @@
+<title>Register Page</title>
+
+<div>
+
+<form method="POST" action = '/register_create/'>{% csrf_token %}
+	<p>Username: <input type = 'text' name = 'username' ></input></p>
+	<br>
+	<p>Password: <input type = 'password' name ='password1' /></p>
+	<br>
+	<p>Password Again: <input type = 'password' name ='password2' /></p>
+	<br>
+	<input type ='submit' value='submit' />
+	<br>
+	<br>
+	<input type = 'reset'  value = 'reset' />
+	
+	<span style = 'color: red' >{{errors}} </span>
+</form>
+</div>
