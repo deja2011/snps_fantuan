@@ -26,4 +26,11 @@ urlpatterns = [
     url(r'vote$', 'tuanapp.views.vote'),
     url(r'update$', 'tuanapp.views.update'),
     url(r'delete$', 'tuanapp.views.delete'),  
+	url(r'^accounts/login/$', 'django.contrib.auth.views.login',{'template_name': 'login.html'}),
+	url(r'^login/$', 'tuanapp.views.Login'),
+	url(r'^acc_login/$','tuanapp.views.acc_login'),
+	url(r'^logout/$', 'tuanapp.views.logout_view'),
+	url(r'^register/$','tuanapp.views.register'),
+	url(r'^register_create/$','tuanapp.views.register_create'),
+
 ]
