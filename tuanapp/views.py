@@ -26,26 +26,25 @@ def create_tuan(request):
 def insert(request):
 	if request.method == 'GET':
 		return HttpResponseRedirect('/')
+	user= request.user
 	warning1 = 'Ready'
 	warning2 = 'for insert'
 	alert_type = "alert-info"
 	rest_name = request.POST['new_rest_name']
 	max_num = request.POST['new_max_num']
-	init = request.POST['new_init']
+	init = user.username
 	date = request.POST['new_date']                                 
 	if len(rest_name) == 0:
 		warning1 = 'Dear Qin!'
 		warning2 = 'Insert new Tuan failed, resturant should not be empty...'
 		alert_type = "alert-danger"
-		tuan_list = Tuan.objects.all()
 		return render_to_response('create_tuan.html', locals(), context_instance = RequestContext(request))			
 	else:		
 		try:
-			tmp = Tuan.objects.get(init=init)
+			tmp = Tuan.objects.get(init=init, date=date)
 			warning1 =  "Dear %s"%init
-			warning2 =  ", you have already created the activity. Please update your Tuan instead of create new one."
+			warning2 =  ", you have already created the activity on %s. Please update your Tuan instead of create new one." % date
 			alert_type = "alert-warning"
-			tuan_list = Tuan.objects.all()
 			return render_to_response('create_tuan.html', locals(), context_instance = RequestContext(request))
 		except Tuan.DoesNotExist:
 			warning1 =  "Dear %s"%init
@@ -63,6 +62,7 @@ def insert(request):
 def update(request):
 	if request.method == 'GET':
 		return HttpResponseRedirect('/')
+	user = request.user
 	warning1 = 'Ready'
 	warning2 = 'for update'
 	alert_type = "alert-info"
@@ -75,21 +75,21 @@ def update(request):
 	upd_crt_num = int(upd_tuan.crt_num)
 
 	if len(upd_rest_name) == 0:
-		warning1 = 'Dear Qin!'
+		warning1 = 'Dear %s!' % user.username
 		warning2 = 'update tuan failed, resturant name cannot be empty'
 		alert_type = "alert-danger"
 	elif int(upd_max_num) < upd_crt_num:
-		warning1 = 'Dear Qin!'
+		warning1 = 'Dear %s!' % user.username
 		warning2 = 'Current participant number is larger than your updated max participant number, update failed...'
 		alert_type = 'alert-danger'
 	else:		
 		upd_progress = int(float(upd_crt_num)/int(upd_max_num)*100)
 		Tuan.objects.filter(id=upd_id).update(rest_name=upd_rest_name, max_num=upd_max_num, date=upd_date, progress=upd_progress)
-		warning1 =  "Dear!"
+		warning1 =  "Dear %s!" % user.username
 		warning2 =  "Update successed!"
 		alert_type = "alert-success"
-	tuan_list = Tuan.objects.all()
-	return render_to_response('index.html', locals(), context_instance = RequestContext(request))
+	tuan_list = Tuan.objects.filter(init=user.username)
+	return render_to_response('my_tuan.html', locals(), context_instance = RequestContext(request))
 
 def vote(request):
 	if request.method == 'GET':
@@ -120,14 +120,15 @@ def vote(request):
 def delete(request):
 	if request.method == 'GET':
 		return HttpResponseRedirect('/')
+	user = request.user
 	warning1 ='Delete'
 	warning2 = 'OK'
 	alert_type = "alert-success"
 	del_id = int(request.POST['del_id'])
 	tuan = Tuan.objects.get(id=del_id)
 	tuan.delete()
-	tuan_list = Tuan.objects.all()
-	return render_to_response('index.html', locals(), context_instance = RequestContext(request))
+	tuan_list = Tuan.objects.filter(init=user.username)
+	return render_to_response('my_tuan.html', locals(), context_instance = RequestContext(request))
 
 def acc_login(request):
 	username = request.POST.get('username')
@@ -176,3 +177,14 @@ def register_create(request):
 		tuan_user.user_id = user.id
 		tuan_user.save()	
 		return HttpResponse("Register successfully!<br/><a href='/login/' >Login</a>")
+
+def my_tuan(request):
+	user = request.user
+	warning1 = 'Dear %s, are you Ready' % user.username
+	warning2 = 'for Tuan??'
+	alert_type = "alert-info"
+	person = Person.objects.get(user_id=user.id)
+	person_name = user.username
+	tuan_list = Tuan.objects.filter(init=person_name)
+	return render_to_response('my_tuan.html', locals() , context_instance = RequestContext(request))
+

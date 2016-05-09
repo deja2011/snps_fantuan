@@ -47,55 +47,42 @@
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
-            <li class="active"><a href="/index/">Home</a></li>
-			<li><a href="/create_tuan">KaiTuan</a></li>
-			{% if user.is_authenticated %}
-			{{user.username}}
-			<li><a href="/my_tuan">MyTuan</a></li>
-			{% endif %}
+            <li><a href="/index/">Home</a></li>
+			<li><a href="/create_tuan/">KaiTuan</a></li>
+			<li class="active"><a href="/my_tuan">MyTuan</a></li>
 			<li><a href="#">About</a></li>
 		  </ul>
 		  
 		  <ul class="nav navbar-nav navbar-right">
 		    <li class="dropdown">
 			<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-			{% if user.is_authenticated %}
 			{{user.username}}
 			<span class="caret"></span></a>
 		    <ul class="dropdown-menu" role="menu">
 			  <li><a href="/logout/">Logout</a></li>	
-			  {% else%}
-			  <li><a href="/login/">Login</a></li>
-			  <li><a href="/register/">Register</a></li>
-			  {% endif%}
 		    </ul>
 		    </li>
 		  </ul>
-
+      
         </div><!--/.nav-collapse -->
       </div>
     </nav>  
 
 		<div class="container theme-showcase" role="main">
-			<!-- Main jumbotron for a primary marketing message or call to action -->
-	      	<div class="jumbotron" style="background-color: #EFCC05">
-	       		<h1><strong>Fan Tuan</strong></h1>
-	        	<p>This is an amazing Yue Fan app inside Synopsys. Just <strong>Yue</strong> it!!</p>
-	      	</div>
 
 			<div class="alert {{alert_type}}" role="alert">
 		    	<strong>{{warning1}}</strong> {{warning2}}
 		  	</div>
+			<hr />
 
 			<div class="row">
  				<div class="col-md-6">
 					<div class="panel panel-primary">
             			<div class="panel-heading">
-							<h4 class="panel-title"> 2. <strong> Read</strong> exist Tuans </h4>
+							<h4 class="panel-title"> Your created <strong> Tuan</strong> list </h4>
 						</div>
 					</div>
 				</div>
-
 				<div style="padding-left: 15px; padding-right: 15px">
 					       	
 		        	<table class="table table-striped">
@@ -107,10 +94,8 @@
 							<th> crrent participants </th>							
 							<th> date </th>
 							<th> progress </th>
-							<th> action </th>
 						</tr>
 						{% for tuan in tuan_list %}
-						<form action = 'vote' method='POST'>
 						{% csrf_token %} 
 						<tr>
 
@@ -124,17 +109,81 @@
 								<div class="progress-bar progress-bar-striped" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width:{{tuan.progress}}%"></div>
 								</div>
 							</td>
-							<td> <input type = 'submit' value = 'join' > <input type='text' name='vote_id' value = '{{tuan.id}}' style="display: none;"></td>
 						</tr>
-						</form>
+
 						{% endfor %}
 					</table>
 									
 				</div>
 			</div>
 
-			<br />
 			<hr />
+			<div class="row">
+ 				<div class="col-md-6">
+					<div class="panel panel-primary">
+            			<div class="panel-heading">
+							<h4 class="panel-title"> <strong> Update</strong> an exist Tuan </h4>
+						</div>
+					</div>
 
+					<form action = 'update' method='POST'> 
+					{% csrf_token %}
+					<table class="table ">
+						<tr>
+							<td> tuan to update: </td>
+							<td>
+								<select name='upd_id'>
+									{% for tuan in tuan_list %}
+									<option value="{{tuan.id}}"> {{tuan.date}} {{tuan.rest_name}}</option>
+									{% endfor %}
+								</select>
+							</td>
+						</tr>
+						<tr>
+							<td> rest_name </td>
+							<td> <input type = 'text' name = 'upd_rest_name'></td>
+						</tr>
+						<tr>
+							<td> max_num </td>
+							<td> <input type = 'text' name = 'upd_max_num'></td>
+						</tr>
+						<tr>
+							<td> date </td>
+							<td> <input type = 'text' name = 'upd_date'></td>
+						</tr>
+						<tr>
+							<td> <input type = 'submit' value = 'update'></td>
+						</tr>
+					</table>
+					</form>
+				</div>
+			</div>
+			<div class="row">
+ 				<div class="col-md-6">
+					<div class="panel panel-primary">
+            			<div class="panel-heading">			
+							<h4 class="panel-title"> <strong> Delete</strong> an exist Tuan </h4>
+						</div>
+					</div>
+					<form action = 'delete' method='POST'> 
+					{% csrf_token %}
+					<table class="table ">
+						<tr>
+							<td> tuan to delete: </td>
+							<td>
+								<select id='del_id' name='del_id'>
+									{% for tuan in tuan_list %}
+									<option value="{{tuan.id}}" name='upd_id'> {{tuan.date}} {{tuan.rest_name}} </option>
+									{% endfor %}
+								</select>
+							</td>
+						</tr>
+						<tr>
+							<td> <input type = 'submit' value = 'delete'></td>
+						</tr>
+					</table>
+					</form>
+				</div>
+			</div>
 	</body>
 </html>

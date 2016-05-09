@@ -47,15 +47,31 @@
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
-            <li class="active"><a href="/index/">Home</a></li>
-			<li><a href="/create_tuan/">KaiTuan</a></li>
+            <li><a href="/index/">Home</a></li>
+			<li class="active"><a href="/create_tuan/">KaiTuan</a></li>
+			{% if user.is_authenticated %}
+			{{user.username}}
+			<li><a href="/my_tuan">MyTuan</a></li>
+			{% endif %}
 			<li><a href="#">About</a></li>
 		  </ul>
-		  
+		 		  
 		  <ul class="nav navbar-nav navbar-right">
-            <li><a href="#">My Home</a></li>
-          </ul>
-      
+		    <li class="dropdown">
+			<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+			{% if user.is_authenticated %}
+			{{user.username}}
+			<span class="caret"></span></a>
+		    <ul class="dropdown-menu" role="menu">
+			  <li><a href="/logout/">Logout</a></li>	
+			  {% else%}
+			  <li><a href="/login/">Login</a></li>
+			  <li><a href="/register/">Register</a></li>
+			  {% endif%}
+		    </ul>
+		    </li>
+		  </ul>
+
         </div><!--/.nav-collapse -->
       </div>
     </nav>  
@@ -85,10 +101,6 @@
 							<tr>
 								<td> Max participants </td>
 								<td> <input type = 'text' name = 'new_max_num'></td>
-							</tr>
-							<tr>
-								<td> Initiator </td>
-								<td> <input type = 'text' name = 'new_init'></td>
 							</tr>
 							<tr>
 								<td> Date </td>

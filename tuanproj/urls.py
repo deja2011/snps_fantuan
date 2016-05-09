@@ -21,7 +21,8 @@ urlpatterns = [
     url(r'^$', 'tuanapp.views.index'),
     url(r'^index$', 'tuanapp.views.index'),
     url(r'^index/$', 'tuanapp.views.index'),
-    url(r'^create_tuan', 'tuanapp.views.create_tuan'),
+    url(r'^create_tuan$', 'tuanapp.views.create_tuan'),
+    url(r'^create_tuan/$', 'tuanapp.views.create_tuan'),
     url(r'insert$', 'tuanapp.views.insert'),
     url(r'vote$', 'tuanapp.views.vote'),
     url(r'update$', 'tuanapp.views.update'),
@@ -32,5 +33,5 @@ urlpatterns = [
 	url(r'^logout/$', 'tuanapp.views.logout_view'),
 	url(r'^register/$','tuanapp.views.register'),
 	url(r'^register_create/$','tuanapp.views.register_create'),
-
+    url(r'^my_tuan', 'tuanapp.views.my_tuan'),  
 ]
