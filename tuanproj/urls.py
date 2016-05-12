@@ -34,4 +34,5 @@ urlpatterns = [
 	url(r'^register/$','tuanapp.views.register'),
 	url(r'^register_create/$','tuanapp.views.register_create'),
     url(r'^my_tuan', 'tuanapp.views.my_tuan'),  
+    url(r'^tuan_detail/(?P<tuan_id>\d+)/$', 'tuanapp.views.tuan_detail', name = 'detail'),
 ]

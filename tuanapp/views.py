@@ -188,3 +188,7 @@ def my_tuan(request):
 	tuan_list = Tuan.objects.filter(init=person_name)
 	return render_to_response('my_tuan.html', locals() , context_instance = RequestContext(request))
 
+
+def tuan_detail(request, tuan_id):
+    tuan = Tuan.objects.get(id = tuan_id)
+    return render(request, 'detail_tuan.html', {'tuan': tuan})

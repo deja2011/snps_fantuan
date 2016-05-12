@@ -39,3 +39,6 @@ nosetests.xml
 # SQLite database
 *.db
 db.sqlite3
+
+# virtualenv
+env
