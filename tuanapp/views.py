@@ -160,8 +160,9 @@ def register_create(request):
 		username = request.POST.get('username')
 		password1 = request.POST.get('password1')
 		password2 = request.POST.get('password2')
-		email = request.POST.get('email')	
+		email = request.POST.get('email')
 		filter_result = User.objects.filter(username = username)
+		print "filter_Result is ",filter_result
 		if len(filter_result) >0:
 			return render_to_response("register.html", {'errors':"Username already exists, please try another username."},context_instance=RequestContext(request))
 

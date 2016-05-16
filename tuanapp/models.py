@@ -15,6 +15,6 @@ class Person (models.Model):
   user = models.OneToOneField(User, unique= True)
   created_tuan = models.ManyToManyField(Tuan)
   joined_tuan = models.ManyToManyField(Tuan, related_name='joind_id')
-  email = models.EmailField(blank=False, unique=True)  
+  email = models.EmailField(blank=False)  
   def __unicode__(self):
     return self.user.username
