@@ -1,4 +1,5 @@
 from django.contrib import admin
+from kombu.transport.django import models as kombu_models
 from tuanapp import models
 from django.contrib.auth.models import User
 
@@ -14,3 +15,4 @@ class Person_admin(admin.ModelAdmin):
 
 admin.site.register(models.Tuan,Tuan_admin)
 admin.site.register(models.Person)
+admin.site.register(kombu_models.Message)
