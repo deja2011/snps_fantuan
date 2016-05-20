@@ -88,10 +88,6 @@
 								<td> <input type = 'text' name = 'new_rest_name'></td>
 							</tr>
 							<tr>
-								<td> Min participants </td>
-								<td> <input type = 'text' name = 'new_min_num'></td>
-							</tr>
-							<tr>
 								<td> Max participants </td>
 								<td> <input type = 'text' name = 'new_max_num'></td>
 							</tr>
