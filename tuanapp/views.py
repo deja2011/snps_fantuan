@@ -31,7 +31,14 @@ def insert(request):
 	warning2 = 'for insert'
 	alert_type = "alert-info"
 	rest_name = request.POST['new_rest_name']
+	min_num = request.POST['new_min_num']
 	max_num = request.POST['new_max_num']
+	if min_num > max_num:
+		warning1 = 'Dear Qin!'
+		warning2 = 'Insert new Tuan failed, minimum number should be less than max number'
+		alert_type = "alert-danger"
+		return render_to_response('create_tuan.html', locals(), context_instance = RequestContext(request))
+	        
 	init = user.username
 	date = request.POST['new_date']                                 
 	if len(rest_name) == 0:
@@ -52,6 +59,7 @@ def insert(request):
 			alert_type = "alert-success"
 			newtuan = Tuan()
 			newtuan.rest_name = rest_name
+			newtuan.min_num = min_num
 			newtuan.max_num = max_num
 			newtuan.init = init
 			newtuan.date = date
@@ -68,6 +76,7 @@ def update(request):
 	alert_type = "alert-info"
 	upd_id = int(request.POST['upd_id'])
 	upd_rest_name = request.POST['upd_rest_name']
+	upd_min_num = request.POST['upd_min_num']
 	upd_max_num = request.POST['upd_max_num']
 	upd_date = request.POST['upd_date']
 
@@ -101,6 +110,7 @@ def vote(request):
                                      
 	upd_tuan = Tuan.objects.get(id=vote_id)
 	upd_crt_num = int(upd_tuan.crt_num)
+	upd_min_num = int(upd_tuan.min_num)
 	upd_max_num = int(upd_tuan.max_num)
 	if upd_crt_num == upd_max_num:
 		warning1 = "Dear Qin!"

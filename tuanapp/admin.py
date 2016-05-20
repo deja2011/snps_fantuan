@@ -3,9 +3,9 @@ from tuanapp import models
 from django.contrib.auth.models import User
 
 class Tuan_admin(admin.ModelAdmin):
-	list_display = ('rest_name','max_num','init','date','crt_num','progress')
-	list_filter = ('rest_name','max_num','init','date','crt_num','progress')
-	search_fields = ('rest_name','max_num','init','date','crt_num','progress')
+	list_display = ('rest_name','min_num','max_num','init','date','crt_num','progress')
+	list_filter = ('rest_name','min_num','max_num','init','date','crt_num','progress')
+	search_fields = ('rest_name','min_num','max_num','init','date','crt_num','progress')
 
 class Person_admin(admin.ModelAdmin):
 	list_display = ('user__username','email')

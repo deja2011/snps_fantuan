@@ -4,7 +4,8 @@ from django.contrib.auth.models import User
 # Create your models here.
 class Tuan (models.Model):
   rest_name = models.CharField(max_length = 50)
-  max_num = models.CharField(max_length= 30)
+  min_num = models.IntegerField(default = 1)
+  max_num = models.IntegerField(default = 3)
   init = models.CharField(max_length= 30)
   date = models.CharField(max_length = 10)
   crt_num = models.CharField(max_length= 30, default=0)
