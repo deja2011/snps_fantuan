@@ -19,3 +19,11 @@ class Person (models.Model):
   email = models.EmailField(blank=False)  
   def __unicode__(self):
     return self.user.username
+
+
+class Comment(models.Model):
+  person = models.ForeignKey(Person, on_delete = models.CASCADE)
+  tuan = models.ForeignKey(Tuan, on_delete = models.CASCADE)
+  published = models.DateTimeField('date published')
+  content = models.TextField()
+

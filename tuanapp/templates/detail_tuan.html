@@ -108,18 +108,23 @@
             </div>
 
             <hr />
-            <div class="ds-thread" data-thread-key="{{ tuan.id }}" data-title="{{ tuan.rest_name }}_{{ tuan.date }}" data-url="tuan/{{ tuan.id }}"></div>
-            <script type="text/javascript">
-                var duoshuoQuery = {short_name:"synopsysyuefan"};
-                (function() {
-                 var ds = document.createElement('script');
-                 ds.type = 'text/javascript';ds.async = true;
-                 ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
-                 ds.charset = 'UTF-8';
-                 (document.getElementsByTagName('head')[0] 
-                  || document.getElementsByTagName('body')[0]).appendChild(ds);
-                 })();
-            </script>
+            <table>
+            {% for comment in comments %}
+            <tr><td>{{ comment.person.user.username }}<br/>
+                    {{ comment.published|date:"Y/m/d H:i:s" }}
+            </td><td>{{ comment.content }}</td></tr>
+            {% endfor %}
+            </table>
+            {% if user.is_authenticated %}
+            <form action="/tuan_detail/{{ tuan.id }}/" method="post">
+                {% csrf_token %}
+                <input type="text" name="content">
+                <br>
+                <input type="submit" value="Enter">
+            </form>
+            {% else %}
+                <p>You must <a href="/login/">login</a> before posting your comments.</p>
+            {% endif %}
         </body>
     </html>
 
