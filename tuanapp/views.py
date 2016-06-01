@@ -1,8 +1,10 @@
-# Create your views here.
+
+from datetime import datetime
+
 from django.shortcuts import render, render_to_response
 from django.template import RequestContext
 from django.http import HttpResponseRedirect, HttpResponse
-from tuanapp.models import Tuan, Person
+from tuanapp.models import Tuan, Person, Comment
 from tuanapp import models
 from django import forms
 from django.contrib import auth
@@ -190,6 +192,7 @@ def register_create(request):
 		tuan_user.save()	
 		return HttpResponse("Register successfully!<br/><a href='/login/' >Login</a>")
 
+
 def my_tuan(request):
 	user = request.user
 	warning1 = 'Dear %s, are you Ready' % user.username
@@ -203,4 +206,16 @@ def my_tuan(request):
 
 def tuan_detail(request, tuan_id):
     tuan = Tuan.objects.get(id = tuan_id)
-    return render(request, 'detail_tuan.html', {'tuan': tuan})
+
+    if request.method == 'POST':
+	content = request.POST.get('content')
+        user = request.user
+        now = datetime.now()
+        comment = Comment.objects.create(
+                tuan = tuan, content = content, person = Person.objects.get(user = user),
+                published  = now)
+        comment.save()
+
+    comments = tuan.comment_set.all()
+    return render(request, 'detail_tuan.html', {'tuan': tuan, 'comments': comments})
+
