@@ -44,6 +44,7 @@ INSTALLED_APPS = (
     'tuanapp',
     'djcelery',
     'kombu.transport.django',
+	'pagination',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -55,6 +56,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.security.SecurityMiddleware',
+	'pagination.middleware.PaginationMiddleware',
 )
 
 ROOT_URLCONF = 'tuanproj.urls'
@@ -70,7 +72,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-            ],
+				'django.core.context_processors.request',
+			],
         },
     },
 ]

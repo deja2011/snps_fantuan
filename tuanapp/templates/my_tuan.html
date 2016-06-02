@@ -1,5 +1,5 @@
 {% load staticfiles %}
-
+{% load pagination_tags %}
 <html>
 	<head>
 	    <meta charset="utf-8">
@@ -95,6 +95,7 @@
 							<th> date </th>
 							<th> progress </th>
 						</tr>
+						{% autopaginate tuan_list 3 %}
 						{% for tuan in tuan_list %}
 						{% csrf_token %} 
 						<tr>
@@ -114,7 +115,7 @@
 
 						{% endfor %}
 					</table>
-									
+						{% paginate %}
 				</div>
 			</div>
 
