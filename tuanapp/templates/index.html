@@ -1,4 +1,5 @@
 {% load staticfiles %}
+{% load pagination_tags %}
 
 <html>
 	<head>
@@ -111,6 +112,7 @@
                                                         <th> detail </th>
 							<th> action </th>
 						</tr>
+						{% autopaginate tuan_list 5 %}
 						{% for tuan in tuan_list %}
 						<form action = 'vote' method='POST'>
 						{% csrf_token %} 
@@ -136,7 +138,7 @@
 						</form>
 						{% endfor %}
 					</table>
-									
+					{% paginate %}
 				</div>
 			</div>
 
