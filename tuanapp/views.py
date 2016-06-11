@@ -148,34 +148,37 @@ def acc_login(request):
 	user = auth.authenticate(username = username, password=password)
 	if user is not None:
 		auth.login(request,user)
-		content = '''
-			Welcome %s !!!
-			<a href = '/logout/' >Logout</a>
-			'''  % user.username
-		return HttpResponseRedirect('/index/')
+		return render_to_response('redirect.html',{"refresh_url":request.session['login_from']},context_instance=RequestContext(request))
 	else:
 		return render_to_response('login.html',{'login_err':'Warning: wrong name or wrong password!'},context_instance=RequestContext(request))
 
 def logout_view(request):
 	user= request.user
 	auth.logout(request)
-	return HttpResponse("<b>%s</b> logged out ! <br/><a href='/index/' >back to index</a>" % user)
+	request.session['login_from'] = request.META.get('HTTP_REFERER', '/index/')
+	return render_to_response('redirect.html',{"refresh_url":request.session['login_from']},context_instance=RequestContext(request))
 				
 def Login(request):
+	request.session['login_from'] = request.META.get('HTTP_REFERER', '/index/')
 	return render_to_response('login.html',context_instance=RequestContext(request))
 
 def register(request):
+	print "method==>",request.method
+	print 'refer==>',request.META.get("HTTP_REFERER")
+	request.session['login_from'] = request.META.get('HTTP_REFERER', '/index/')
 	return render_to_response("register.html",context_instance=RequestContext(request))
 
 def register_create(request):
 	if request.method == "POST":
+		html_from = request.session['login_from']
+		print "html is from==>",html_from
 		errors = ""
 		username = request.POST.get('username')
 		password1 = request.POST.get('password1')
 		password2 = request.POST.get('password2')
 		email = request.POST.get('email')
 		filter_result = User.objects.filter(username = username)
-		print "filter_Result is ",filter_result
+		#print "filter_Result is ",filter_result
 		if len(filter_result) >0:
 			errors ='Username already exists, please try another username.'
 			return render_to_response("register.html", locals(),context_instance=RequestContext(request))
@@ -193,7 +196,9 @@ def register_create(request):
 		tuan_user = models.Person()
 		tuan_user.user_id = user.id
 		tuan_user.save()	
-		return HttpResponse("Register successfully!<br/><a href='/login/' >Login</a>")
+		user = auth.authenticate(username=username, password=password1)
+		auth.login(request,user)
+		return render_to_response('redirect.html',{"refresh_url":html_from},context_instance=RequestContext(request))
 
 
 def my_tuan(request):
