@@ -169,6 +169,7 @@ def register(request):
 
 def register_create(request):
 	if request.method == "POST":
+		errors = ""
 		username = request.POST.get('username')
 		password1 = request.POST.get('password1')
 		password2 = request.POST.get('password2')
@@ -176,10 +177,12 @@ def register_create(request):
 		filter_result = User.objects.filter(username = username)
 		print "filter_Result is ",filter_result
 		if len(filter_result) >0:
-			return render_to_response("register.html", {'errors':"Username already exists, please try another username."},context_instance=RequestContext(request))
+			errors ='Username already exists, please try another username.'
+			return render_to_response("register.html", locals(),context_instance=RequestContext(request))
 
 		if password1 != password2:
-			return render_to_response('register.html',{'errors': "Two passwords differ, please try again."},context_instance=RequestContext(request))
+			errors='Two passwords differ, please try again.'
+			return render_to_response('register.html',locals(),context_instance=RequestContext(request))
 
 		user= User.objects.create_user(
 			username = username,
