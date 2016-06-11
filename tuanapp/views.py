@@ -42,8 +42,13 @@ def insert(request):
 		return render_to_response('create_tuan.html', locals(), context_instance = RequestContext(request))
 	        
 	init = user.username
-	date = request.POST['new_date']                                 
-	if len(rest_name) == 0:
+	date = request.POST['new_date']   
+	if date == "":
+		warning1 =  "Dear %s"%init
+		warning2 = ', the input Date can not be empty!'
+		alert_type = "alert-danger"
+		return render_to_response('create_tuan.html', locals(), context_instance = RequestContext(request))               
+	elif len(rest_name) == 0:
 		warning1 = 'Dear Qin!'
 		warning2 = 'Insert new Tuan failed, resturant should not be empty...'
 		alert_type = "alert-danger"
