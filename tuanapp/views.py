@@ -114,6 +114,7 @@ def vote(request):
 	warning2 = 'for vote'
 	alert_type = "alert-info"
 	vote_id = int(request.POST['vote_id'])
+        user = request.user
                                      
 	upd_tuan = Tuan.objects.get(id=vote_id)
 	upd_crt_num = int(upd_tuan.crt_num)
@@ -127,6 +128,9 @@ def vote(request):
 		upd_crt_num += 1	
 		upd_progress = int(float(upd_crt_num)/upd_max_num*100)
 		Tuan.objects.filter(id=vote_id).update(crt_num=upd_crt_num, progress=upd_progress)
+                if not str(user) == 'AnonymousUser':
+                    upd_user = Person.objects.get(user_id=user.id)
+                    upd_user.joined_tuan.add(upd_tuan)
 		warning1 =  "Dear!"
 		warning2 =  "Vote successed!"
 		alert_type = "alert-success"
