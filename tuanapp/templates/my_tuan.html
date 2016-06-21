@@ -90,8 +90,10 @@
 
 							<th> initiator </th>
 							<th> resturant name </th>
-							<th> max participants </th>     
+                                                        <th> min participants </th>
+							<th> max participants </th> 
 							<th> crrent participants </th>							
+                                                        <th> joined ids </th>
 							<th> date </th>
 							<th> progress </th>
 						</tr>
@@ -104,7 +106,9 @@
 							<td> {{tuan.rest_name}}</td>
 							<td> {{tuan.min_num}}</td>
 							<td> {{tuan.max_num}}</td>
-							<td> {{tuan.crt_num}}</td>							
+							<td> {{tuan.crt_num}}</td>
+                                                        <td> {% for id in tuan.joind_id.all|slice:":2" %} {{id}} {% endfor %}
+                                                            {% if tuan.joind_id.all.2 %} and <a href="{% url 'detail' tuan.id %}"> more </a> {% endif %}
 							<td> {{tuan.date}}</td>
 							<td> 
 								<div class="progress">
