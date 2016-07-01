@@ -1,8 +1,8 @@
 #snps_yuefan
 
-1 Details 显示joined person list -- Yimin
+1 Details 显示joined person list -- Yimin (Done)
 
-1 MyTuan显示 joined tuan list -- Leo
+1 MyTuan显示 joined tuan list -- Yimin (Done)
 
 1 Details 专门开一个column -- Lawrence
 
