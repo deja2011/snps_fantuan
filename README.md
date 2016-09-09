@@ -1,16 +1,16 @@
 #snps_yuefan
 
-1 Details 显示joined person list -- Yimin (Done)
+Details 显示joined person list -- Yimin (Done)
 
-1 MyTuan显示 joined tuan list -- Yimin (Done)
+MyTuan显示 joined tuan list -- Yimin (Done)
 
-1 Details 专门开一个column -- Lawrence
+Details 专门开一个column -- Lawrence
 
 Navigator 做成模板 -- Lawrence
 
 Celery部署 -- Yimin
 
-1 MyTuan table 显示bug -- Zoe (done)
+MyTuan table 显示bug -- Zoe (done)
 
 Authenticate decorator -- Leo (done)
 Logic enhancement -- Leo:
