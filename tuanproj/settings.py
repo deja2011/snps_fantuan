@@ -44,7 +44,7 @@ INSTALLED_APPS = (
     'tuanapp',
     'djcelery',
     'kombu.transport.django',
-	'pagination',
+    'pagination',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -56,7 +56,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.security.SecurityMiddleware',
-	'pagination.middleware.PaginationMiddleware',
+    'pagination.middleware.PaginationMiddleware',
 )
 
 ROOT_URLCONF = 'tuanproj.urls'
@@ -72,8 +72,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-				'django.core.context_processors.request',
-			],
+                'django.core.context_processors.request',
+            ],
         },
     },
 ]
@@ -85,23 +85,14 @@ WSGI_APPLICATION = 'tuanproj.wsgi.application'
 # https://docs.djangoproject.com/en/1.8/ref/settings/#databases
 
 DATABASES = {
-       'default': {
-       'ENGINE': 'django.db.backends.sqlite3', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': 'django.db',                      # Or path to database file if using sqlite3.
-        'USER': '',                      # Not used with sqlite3.
-        'PASSWORD': '',                  # Not used with sqlite3.
-        'HOST': '',                      # Set to empty string for localhost. Not used with sqlite3.
-        'PORT': '',                      # Set to empty string for default. Not used with sqlite3.
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'python_django',
+        'USER': 'user',
+        'PASSWORD': '',
+        'HOST': 'pvicc015',      
     }
-    # 'default': {
-    #     'ENGINE': 'django.db.backends.mysql',
-    #     'NAME': 'python_django',
-    #     'USER': 'user',
-    #     'PASSWORD': '',
-    #     'HOST': 'pvicc015',      
-    # }
 }
-
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.8/topics/i18n/
@@ -123,3 +114,9 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 STATICFILES_DIRS = (os.path.join(BASE_DIR, "static"),)
+
+try:
+    from tuanproj.settings_local import *
+except ImportError:
+    print "Warning: cannot find local settings at tuanproj/settings_local.py. Skip loading local settings."
+

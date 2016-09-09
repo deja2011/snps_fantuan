@@ -1,25 +1,41 @@
-#snps_yuefan
+# SNPS Yuefan
 
-Details 显示joined person list -- Yimin (Done)
+----
 
-MyTuan显示 joined tuan list -- Yimin (Done)
+## Active AIs
+- Details 显示joined person list -- Yimin (Done)
 
-Details 专门开一个column -- Lawrence
+- MyTuan显示 joined tuan list -- Yimin (Done)
 
-Navigator 做成模板 -- Lawrence
+- Details 专门开一个column -- Lawrence
 
-Celery部署 -- Yimin
+- Navigator 做成模板 -- Lawrence
 
-MyTuan table 显示bug -- Zoe (done)
+- Celery部署 -- Yimin
 
-Authenticate decorator -- Leo (done)
-Logic enhancement -- Leo:
-1. no duplicate join
+- MyTuan table 显示bug -- Zoe (Done)
 
-Change to datatime to all table -- syl
+- Authenticate decorator -- Leo (Done)
+  - Logic enhancement -- Leo:
+      1. no duplicate join
 
-Use form view in my Tuan view -- Lawrence
+- Change to datatime to all table -- syl
 
-Login redirect might have bug. Cannot reproduce during meeting. -- Yimin (Done)
+- Use form view in my Tuan view -- Lawrence
 
-db switch/population -- Lawrence
+- Login redirect might have bug. Cannot reproduce during meeting. -- Yimin (Done)
+
+- db switch/population -- Lawrence (Done. population will be skipped for now.)
+
+----
+
+## Database Setup
+###### Lawrence @ 2016/09/09
+Following three files will be excluded from Git repository.
+- `tuanproj/settings_local.py`
+- `db.sqlite3`
+- `django.db`
+
+The default database is setup in `tuanproj/settings.py` and points to Leo's MySQL at `pvicc015:python_django`. To use this database, make sure `tuanproj/settings_local.py` doesn't exist, or this local setup file doesn't overwrite default database setup. Alternatively, to use custom database for local test, please place related setup in `tuanproj/settings_local.py`.
+
+An example `settings_local.py` is at `tuanproj/settings_local.example.py`.

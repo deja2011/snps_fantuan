@@ -24,6 +24,7 @@ __pycache__
 
 # Database files
 db.*
+*.db
 
 # Installer logs
 pip-log.txt
@@ -46,3 +47,6 @@ env
 
 # vim swp file
 *.swp
+
+# local settings
+settings_local.py
