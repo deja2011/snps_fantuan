@@ -7,9 +7,9 @@
 
 - MyTuan显示 joined tuan list -- Yimin (Done)
 
-- Details 专门开一个column -- Lawrence
+- Details 专门开一个column -- Lawrence (Skipped)
 
-- Navigator 做成模板 -- Lawrence
+- Navigator 做成模板 -- Lawrence (Done)
 
 - Celery部署 -- Yimin
 
@@ -19,7 +19,7 @@
   - Logic enhancement -- Leo:
       1. no duplicate join
 
-- Change to datatime to all table -- syl
+- Change to datatime to all table -- Jessie
 
 - Use form view in my Tuan view -- Lawrence
 
