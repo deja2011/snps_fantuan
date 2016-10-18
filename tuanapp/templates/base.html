@@ -51,12 +51,20 @@
             </div>
             <div id="navbar" class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li class="active"><a href="/index/">Home</a></li>
-                    <li><a href="/create_tuan">KaiTuan</a></li>
+                    <li {% if active_page == "Home" %}class="active"{% endif %}>
+                        <a href="/index/">Home</a>
+                    </li>
+                    <li {% if active_page == "KaiTuan" %}class="active"{% endif %}>
+                        <a href="/create_tuan">KaiTuan</a>
+                    </li>
                     {% if user.is_authenticated %}
-                        <li><a href="/my_tuan">MyTuan</a></li>
+                    <li {% if active_page == "MyTuan" %}class="active"{% endif %}>
+                        <a href="/my_tuan">MyTuan</a>
+                    </li>
                     {% endif %}
-                    <li><a href="#">About</a></li>
+                    <li {% if active_page == "About" %}class="active"{% endif %}>
+                        <a href="#">About</a>
+                    </li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                     <li class="dropdown">

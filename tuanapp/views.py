@@ -16,6 +16,7 @@ def index(request):
 	alert_type = "alert-info"
 	tuan_list = Tuan.objects.all()
 	user = request.user
+        active_page = "Home"
 	return render_to_response('index.html', locals() , context_instance = RequestContext(request))
 
 def create_tuan(request):
@@ -23,6 +24,7 @@ def create_tuan(request):
 	warning2 = 'for Tuan??'
 	alert_type = "alert-info"
 	tuan_list = Tuan.objects.all()
+        active_page = "KaiTuan"
 	return render_to_response('create_tuan.html', locals() , context_instance = RequestContext(request))
 
 def insert(request):
@@ -39,6 +41,7 @@ def insert(request):
 		warning1 = 'Dear Qin!'
 		warning2 = 'Insert new Tuan failed, minimum number should be less than max number'
 		alert_type = "alert-danger"
+                active_page = "KaiTuan"
 		return render_to_response('create_tuan.html', locals(), context_instance = RequestContext(request))
 	        
 	init = user.username
@@ -47,11 +50,13 @@ def insert(request):
 		warning1 =  "Dear %s"%init
 		warning2 = ', the input Date can not be empty!'
 		alert_type = "alert-danger"
+                active_page = "KaiTuan"
 		return render_to_response('create_tuan.html', locals(), context_instance = RequestContext(request))               
 	elif len(rest_name) == 0:
 		warning1 = 'Dear Qin!'
 		warning2 = 'Insert new Tuan failed, resturant should not be empty...'
 		alert_type = "alert-danger"
+                active_page = "KaiTuan"
 		return render_to_response('create_tuan.html', locals(), context_instance = RequestContext(request))			
 	else:		
 		try:
@@ -59,6 +64,7 @@ def insert(request):
 			warning1 =  "Dear %s"%init
 			warning2 =  ", you have already created the activity on %s. Please update your Tuan instead of create new one." % date
 			alert_type = "alert-warning"
+                        active_page = "KaiTuan"
 			return render_to_response('create_tuan.html', locals(), context_instance = RequestContext(request))
 		except Tuan.DoesNotExist:
 			warning1 =  "Dear %s"%init
@@ -72,6 +78,7 @@ def insert(request):
 			newtuan.date = date
 			newtuan.save()   
 		tuan_list = Tuan.objects.all()
+                active_page = "Home"
 		return render_to_response('index.html', locals(), context_instance = RequestContext(request)) 		
 
 def update(request):
@@ -105,6 +112,7 @@ def update(request):
 		warning2 =  "Update successed!"
 		alert_type = "alert-success"
 	tuan_list = Tuan.objects.filter(init=user.username)
+        active_page = "MyTuan"
 	return render_to_response('my_tuan.html', locals(), context_instance = RequestContext(request))
 
 def vote(request):
@@ -136,6 +144,7 @@ def vote(request):
 		alert_type = "alert-success"
 
 	tuan_list = Tuan.objects.all()
+        active_page = "Home"
 	return render_to_response('index.html', locals(), context_instance = RequestContext(request))
 
 def delete(request):
@@ -149,6 +158,7 @@ def delete(request):
 	tuan = Tuan.objects.get(id=del_id)
 	tuan.delete()
 	tuan_list = Tuan.objects.filter(init=user.username)
+        active_page = "MyTuan"
 	return render_to_response('my_tuan.html', locals(), context_instance = RequestContext(request))
 
 def acc_login(request):
@@ -157,6 +167,7 @@ def acc_login(request):
 	user = auth.authenticate(username = username, password=password)
 	if user is not None:
 		auth.login(request,user)
+                active_page = ""
 		return render_to_response('redirect.html',{"refresh_url":request.session['login_from']},context_instance=RequestContext(request))
 	else:
 		return render_to_response('login.html',{'login_err':'Warning: wrong name or wrong password!'},context_instance=RequestContext(request))
@@ -218,6 +229,7 @@ def my_tuan(request):
 	person = Person.objects.get(user_id=user.id)
 	person_name = user.username
 	tuan_list = Tuan.objects.filter(init=person_name)
+        active_page = "MyTuan"
 	return render_to_response('my_tuan.html', locals() , context_instance = RequestContext(request))
 
 
