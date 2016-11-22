@@ -5,7 +5,7 @@ from email.mime.text import MIMEText
 from tuanapp.models import Tuan, Person, Comment
 
 def SendEmail(Sender, Receiver, Subject, Text):
-  msg = MIMEText(Text, 'html')
+    msg = MIMEText(Text, 'html')
   msg['Subject'] = Subject
   msg["To"] = ";".join(Receiver)
   msg["From"] = Sender
@@ -15,27 +15,27 @@ def SendEmail(Sender, Receiver, Subject, Text):
 
 @task()
 def CheckTime():
-  for t in Tuan.objects.all():
-    try:
-      TarTime = time.mktime(time.strptime(str(t.date), '%Y-%m-%d %H:%M'))
+    for t in Tuan.objects.all():
+        try:
+            TarTime = time.mktime(time.strptime(str(t.date), '%Y-%m-%d %H:%M'))
     except:
-      continue
+        continue
 
     #if abs(TarTime - time.time()) / 60 - 15 >= 0.5:
     if abs(TarTime - time.time()) / 60 - 15 <= 2.5:
-      Sender = 'xuym@synopsys.com'
+        Sender = 'xuym@synopsys.com'
       Receiver = []
       Subject = '[Fan Tuan] Your Tuan on %s at %s is approaching' % (t.date, t.rest_name)
       Text = '''
-      Please join! 
+      Please join!
       Have nice time~
       '''
       for p in t.joind_id.all():
-        Receiver.append(str(p.email))
+          Receiver.append(str(p.email))
 
       if Receiver:
-        SendEmail(Sender, Receiver, Subject, Text)
+          SendEmail(Sender, Receiver, Subject, Text)
       print Sender, Receiver, Subject, Text
-    else:
+  else:
       return 5
 
