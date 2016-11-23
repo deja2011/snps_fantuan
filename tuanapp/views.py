@@ -5,8 +5,7 @@ from django.shortcuts import render, render_to_response
 from django.template import RequestContext
 from django.http import HttpResponseRedirect, HttpResponse
 from tuanapp.models import Tuan, Person, Comment
-from tuanapp import models
-from django import forms
+from tuanapp.forms import TuanForm
 from django.contrib import auth
 from django.contrib.auth.models import User
 
@@ -23,8 +22,8 @@ def create_tuan(request):
     warning1 = 'Are you Ready'
     warning2 = 'for Tuan??'
     alert_type = "alert-info"
-    tuan_list = Tuan.objects.all()
     active_page = "KaiTuan"
+    form = TuanForm()
     return render_to_response('create_tuan.html', locals() , context_instance = RequestContext(request))
 
 def insert(request):
@@ -214,7 +213,7 @@ def register_create(request):
             email = email,
             )
         user.save
-        tuan_user = models.Person()
+        tuan_user = Person()
         tuan_user.user_id = user.id
         tuan_user.save()
         user = auth.authenticate(username=username, password=password1)
