@@ -90,7 +90,7 @@ DATABASES = {
         'NAME': 'python_django',
         'USER': 'user',
         'PASSWORD': '',
-        'HOST': 'pvicc015',      
+        'HOST': 'pvicc015',
     }
 }
 
@@ -118,5 +118,5 @@ STATICFILES_DIRS = (os.path.join(BASE_DIR, "static"),)
 try:
     from tuanproj.settings_local import *
 except ImportError:
-    print "Warning: cannot find local settings at tuanproj/settings_local.py. Skip loading local settings."
+    print "INFO: cannot find local settings at tuanproj/settings_local.py. Skip loading local settings."
 
