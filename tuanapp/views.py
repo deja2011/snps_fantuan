@@ -122,7 +122,7 @@ def vote(request):
     warning2 = 'for vote'
     alert_type = "alert-info"
     vote_id = int(request.POST['vote_id'])
-        user = request.user
+    user = request.user
     upd_tuan = Tuan.objects.get(id=vote_id)
     upd_crt_num = int(upd_tuan.crt_num)
     upd_min_num = int(upd_tuan.min_num)
@@ -231,7 +231,7 @@ def my_tuan(request):
     person_name = user.username
     tuan_list = Tuan.objects.filter(init=person_name)
     joined_tuan_list = person.joined_tuan.all()
-        active_page = "MyTuan"
+    active_page = "MyTuan"
     return render_to_response('my_tuan.html', locals() , context_instance = RequestContext(request))
 
 
