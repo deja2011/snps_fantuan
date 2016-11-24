@@ -93,6 +93,7 @@ def update(request):
     if request.method == 'GET':
         return HttpResponseRedirect('/')
     user = request.user
+    person = Person.objects.get(user_id=user.id)
     warning1 = 'Ready'
     warning2 = 'for update'
     alert_type = "alert-info"
@@ -120,6 +121,7 @@ def update(request):
         warning2 =  "Update successed!"
         alert_type = "alert-success"
     tuan_list = Tuan.objects.filter(init=user.username)
+    joined_tuan_list = person.joined_tuan.all()
     active_page = "MyTuan"
     return render_to_response('my_tuan.html', locals(), context_instance = RequestContext(request))
 
@@ -164,6 +166,7 @@ def delete(request):
     if request.method == 'GET':
         return HttpResponseRedirect('/')
     user = request.user
+    person = Person.objects.get(user_id=user.id)
     warning1 ='Delete'
     warning2 = 'OK'
     alert_type = "alert-success"
@@ -171,6 +174,7 @@ def delete(request):
     tuan = Tuan.objects.get(id=del_id)
     tuan.delete()
     tuan_list = Tuan.objects.filter(init=user.username)
+    joined_tuan_list = person.joined_tuan.all()
     active_page = "MyTuan"
     return render_to_response('my_tuan.html', locals(), context_instance = RequestContext(request))
 
