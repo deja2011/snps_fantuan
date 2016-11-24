@@ -10,6 +10,14 @@ from django import forms
 from django.contrib import auth
 from django.contrib.auth.models import User
 
+def user_authenticated(func):	
+	def handle_args(request):
+		if not request.user.is_authenticated():
+			request.session['login_from'] = request.META.get('HTTP_REFERER', '/index/')
+			return render_to_response('login.html',context_instance=RequestContext(request))
+		return func(request)
+	return handle_args
+
 def index(request):
     warning1 = 'Are you Ready'
     warning2 = 'for Tuan??'
@@ -19,6 +27,7 @@ def index(request):
     active_page = "Home"
     return render_to_response('index.html', locals() , context_instance = RequestContext(request))
 
+@user_authenticated
 def create_tuan(request):
     warning1 = 'Are you Ready'
     warning2 = 'for Tuan??'
@@ -35,9 +44,6 @@ def insert(request):
     warning1 = 'Ready'
     warning2 = 'for insert'
     alert_type = "alert-info"
-    if not user.is_authenticated(): 
-    	request.session['login_from'] = request.META.get('HTTP_REFERER', '/index/')
-    	return render_to_response('login.html',context_instance=RequestContext(request))
 
     rest_name = request.POST['new_rest_name']
     min_num = request.POST['new_min_num']
@@ -125,6 +131,7 @@ def update(request):
     active_page = "MyTuan"
     return render_to_response('my_tuan.html', locals(), context_instance = RequestContext(request))
 
+@user_authenticated
 def vote(request):
     if request.method == 'GET':
         return HttpResponseRedirect('/')
@@ -133,10 +140,6 @@ def vote(request):
     alert_type = "alert-info"
     vote_id = int(request.POST['vote_id'])
     user = request.user
-    print "leo debug =>", user.is_authenticated()
-    if not user.is_authenticated():
-    	request.session['login_from'] = request.META.get('HTTP_REFERER', '/index/')
-    	return render_to_response('login.html',context_instance=RequestContext(request))
 
     upd_tuan = Tuan.objects.get(id=vote_id)
     upd_crt_num = int(upd_tuan.crt_num)
