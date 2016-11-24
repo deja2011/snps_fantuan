@@ -240,7 +240,6 @@ def register_create(request):
         auth.login(request,user)
         return render_to_response('redirect.html',{"refresh_url":html_from},context_instance=RequestContext(request))
 
-
 def my_tuan(request):
     user = request.user
     warning1 = 'Dear %s, are you Ready' % user.username
@@ -252,7 +251,6 @@ def my_tuan(request):
     joined_tuan_list = person.joined_tuan.all()
     active_page = "MyTuan"
     return render_to_response('my_tuan.html', locals() , context_instance = RequestContext(request))
-
 
 def tuan_detail(request, tuan_id):
     tuan = Tuan.objects.get(id = tuan_id)
