@@ -31,9 +31,14 @@ def insert(request):
     if request.method == 'GET':
         return HttpResponseRedirect('/')
     user= request.user
+
     warning1 = 'Ready'
     warning2 = 'for insert'
     alert_type = "alert-info"
+    if not user.is_authenticated(): 
+    	request.session['login_from'] = request.META.get('HTTP_REFERER', '/index/')
+    	return render_to_response('login.html',context_instance=RequestContext(request))
+
     rest_name = request.POST['new_rest_name']
     min_num = request.POST['new_min_num']
     max_num = request.POST['new_max_num']
@@ -45,6 +50,7 @@ def insert(request):
         return render_to_response('create_tuan.html', locals(), context_instance = RequestContext(request))
 
     init = user.username
+    creator = Person.objects.get(user=user)
     date = request.POST['new_date']
     if date == "":
         warning1 =  "Dear %s"%init
@@ -62,7 +68,7 @@ def insert(request):
         try:
             tmp = Tuan.objects.get(init=init, date=date)
             warning1 =  "Dear %s"%init
-            warning2 =  ", you have already created the activity on %s. Please update your Tuan instead of create new one." % date
+            warning2 =  ", you have already created the activity on %s. Please update your Tuan instead of creating new one." % date
             alert_type = "alert-warning"
             active_page = "KaiTuan"
             return render_to_response('create_tuan.html', locals(), context_instance = RequestContext(request))
@@ -77,6 +83,8 @@ def insert(request):
             newtuan.init = init
             newtuan.date = date
             newtuan.save()
+            creator.joined_tuan.add(newtuan)
+            creator.save()
         tuan_list = Tuan.objects.all()
         active_page = "Home"
         return render_to_response('index.html', locals(), context_instance = RequestContext(request))
@@ -123,6 +131,11 @@ def vote(request):
     alert_type = "alert-info"
     vote_id = int(request.POST['vote_id'])
     user = request.user
+    print "leo debug =>", user.is_authenticated()
+    if not user.is_authenticated():
+    	request.session['login_from'] = request.META.get('HTTP_REFERER', '/index/')
+    	return render_to_response('login.html',context_instance=RequestContext(request))
+
     upd_tuan = Tuan.objects.get(id=vote_id)
     upd_crt_num = int(upd_tuan.crt_num)
     upd_min_num = int(upd_tuan.min_num)
@@ -134,12 +147,11 @@ def vote(request):
     else:
         upd_crt_num += 1
         upd_progress = int(float(upd_crt_num)/upd_max_num*100)
-        Tuan.objects.filter(id=vote_id).update(crt_num=upd_crt_num, progress=upd_progress)
-        if not str(user) == 'AnonymousUser':
-            upd_user = Person.objects.get(user_id=user.id)
-            upd_user.joined_tuan.add(upd_tuan)
-            upd_user.save()
-            #upd_tuan.save()
+        Tuan.objects.filter(id=vote_id).update(crt_num=upd_crt_num, progress=upd_progress)	        
+        upd_user = Person.objects.get(user_id=user.id)
+        upd_user.joined_tuan.add(upd_tuan)
+        upd_user.save()
+        #upd_tuan.save()
         warning1 =  "Dear!"
         warning2 =  "Vote successed!"
         alert_type = "alert-success"
