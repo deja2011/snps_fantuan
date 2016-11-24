@@ -18,7 +18,7 @@ def index(request):
     active_page = "Home"
     return render_to_response('index.html', locals() , context_instance = RequestContext(request))
 
-def create_tuan(request):
+def create_tuan_deprecated(request):
     warning1 = 'Are you Ready'
     warning2 = 'for Tuan??'
     alert_type = "alert-info"
@@ -26,7 +26,40 @@ def create_tuan(request):
     form = TuanForm()
     return render_to_response('create_tuan.html', locals() , context_instance = RequestContext(request))
 
-def insert(request):
+
+def create_tuan(request):
+    if request.method == 'POST':
+        form = TuanForm(request.POST)
+        form.initiator = Person.objects.get(user_id = request.user.id)
+        print form.errors
+        if form.is_valid():
+            if form.cleaned_data["min_num"] <= form.cleaned_data["max_num"]:
+                form.save()
+                return HttpResponseRedirect('/')
+            else:
+                warning1, warning2, alert_type = (
+                    "Dear Qin!",
+                    "Failed to create new tuan: Min participates exceeded max participates.",
+                    "alert-danger",
+                )
+        else:
+            warning1, warning2, alert_type = (
+                "Dear Qin!",
+                "Failed to create new tuan. Please correct your inputs.",
+                "alert-danger",
+            )
+    else:
+        warning1, warning2, alert_type = (
+            "Are you Ready",
+            "for Tuan??",
+            "alert-info",
+        )
+        form = TuanForm()
+    active_page = "KaiTuan"
+    return render(request, 'create_tuan.html', locals())
+
+
+def insert_deprecated(request):
     if request.method == 'GET':
         return HttpResponseRedirect('/')
     user= request.user

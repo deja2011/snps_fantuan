@@ -23,7 +23,6 @@ urlpatterns = [
     url(r'^index/$', 'tuanapp.views.index'),
     url(r'^create_tuan$', 'tuanapp.views.create_tuan'),
     url(r'^create_tuan/$', 'tuanapp.views.create_tuan'),
-    url(r'insert$', 'tuanapp.views.insert'),
     url(r'vote$', 'tuanapp.views.vote'),
     url(r'update$', 'tuanapp.views.update'),
     url(r'delete$', 'tuanapp.views.delete'),

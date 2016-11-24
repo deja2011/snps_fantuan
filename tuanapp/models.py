@@ -1,15 +1,16 @@
 from django.db import models
+from django.utils import timezone
 from django.contrib.auth.models import User
 
 
 class Tuan (models.Model):
-    rest_name = models.CharField(max_length = 50)
-    min_num = models.IntegerField(default = 1)
-    max_num = models.IntegerField(default = 3)
-    init = models.CharField(max_length= 30)
-    date = models.CharField(max_length = 10)
-    crt_num = models.CharField(max_length= 30, default=0)
-    progress = models.CharField(max_length= 30, default=0)
+    rest_name = models.CharField(max_length = 50, verbose_name ="restaurant name")
+    min_num = models.IntegerField(verbose_name = "max participates")
+    max_num = models.IntegerField(verbose_name = "min participates")
+    current_num = models.IntegerField(default = 0)
+    initiator = models.CharField(default = '', max_length= 50)
+    start_time = models.CharField(max_length = 50, verbose_name = "start time")
+    create_time = models.DateTimeField(default = timezone.now)
 
 
 class Person (models.Model):
