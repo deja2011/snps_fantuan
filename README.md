@@ -3,29 +3,42 @@
 ----
 
 ## Active AIs
+
+- Update Tuan enter/leave logic in `views.py`; Add related buttons in template. (Leo)
+- Update template to reuse html blocks for repeated content. (Leo)
+- Migrate to bootstrap3. (Jessie)
+- Aggregate existing 3rd party js and css. (Jessie)
+- Aggregate self-added CSS into a central CSS file. (Jessie, Lawrence)
+- Model update and related view update. (Lawrence)
+- Update Jumbotron to use Carousel. (Yimin)
+- Continue user test. (Zoe)
+- Collect pictures/logos/themes. (Zoe)
+- Shift to use **Chinese** in webpage. (Lawrence, Jessie)
+- Deploy Celery. (Yimin)
+
+----
+
+## Completed AIs
+
 - Details 显示joined person list -- Yimin (Done)
-
 - MyTuan显示 joined tuan list -- Yimin (Done)
-
 - Details 专门开一个column -- Lawrence (Skipped)
-
 - Navigator 做成模板 -- Lawrence (Done)
-
-- Celery部署 -- Yimin
-
 - MyTuan table 显示bug -- Zoe (Done)
-
 - Authenticate decorator -- Leo (Done)
-  - Logic enhancement -- Leo:
-      1. no duplicate join
-
-- Change to datatime to all table -- Jessie
-
-- Use form view in my Tuan view -- Lawrence
-
+- Change to datatime to all table -- Jessie (Done)
+- Use form view in my Tuan view -- Lawrence (Done)
 - Login redirect might have bug. Cannot reproduce during meeting. -- Yimin (Done)
-
 - db switch/population -- Lawrence (Done. population will be skipped for now.)
+
+----
+
+## Coding Conventions
+- Use spaces instead of tabs for indentation, in all types of committed files.
+- 4-space-indent for Python scripts.
+- Use Unix-style line endings.
+- Eliminate trailing blank characters.
+- Remove unformatted debugging messages in committed files.
 
 ----
 
