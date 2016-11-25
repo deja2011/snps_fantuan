@@ -7,62 +7,63 @@
 {% block body_block %}
 
 <div class="container theme-showcase" role="main">
-    <!-- Main jumbotron for a primary marketing message or call to action -->
-    <div class="jumbotron" style="background-color: #EFCC05">
-        <h1><strong>Fan Tuan</strong></h1>
-        <p>This is an amazing Yue Fan app inside Synopsys. Just <strong>Yue</strong> it!!</p>
-    </div>
+  <!-- Main jumbotron for a primary marketing message or call to action -->
+  <div class="jumbotron" style="background-color: #EFCC05">
+    <h1><strong>Fan Tuan</strong></h1>
+    <p>This is an amazing Yue Fan app inside Synopsys. Just <strong>Yue</strong> it!!</p>
+  </div>
 
-    <div class="alert {{alert_type}}" role="alert">
-        <strong>{{warning1}}</strong> {{warning2}}
-    </div>
+  <div class="alert {{alert_type}}" role="alert">
+    <strong>{{warning1}}</strong> {{warning2}}
+  </div>
 
-    <div class="row">
-        <div class="col-md-12">
-            <div class="panel panel-primary">
-                <div class="panel-heading">
-                    <h4 class="panel-title"><strong> Read</strong> existing Tuans </h4>
-                </div>
-            </div>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="panel panel-primary">
+        <div class="panel-heading">
+          <h4 class="panel-title"><strong> Read</strong> existing Tuans </h4>
         </div>
-
-        <div style="padding-left: 15px; padding-right: 15px">
-            <table class="table table-striped">
-                <tr>
-                    <th> initiator </th>
-                    <th> resturant name </th>
-                    <th> min participants </th>     
-                    <th> max participants </th>     
-                    <th> crrent participants </th>							
-                    <th> date </th>
-                    <th> progress </th>
-                    <th> detail </th>
-                    <th> action </th>
-                </tr>
-                {% autopaginate tuan_list 5 %}
-                {% for tuan in tuan_list %}
-                <form action = 'vote' method='POST'>
-                    {% csrf_token %} 
-                    <tr>
-                        <td> {{tuan.init}}</td>
-                        <td> {{tuan.rest_name}}</td>
-                        <td> {{tuan.min_num}}</td>
-                        <td> {{tuan.max_num}}</td>
-                        <td> {{tuan.crt_num}}</td>							
-                        <td> {{tuan.date}}</td>
-                        <td> 
-                            <div class="progress">
-                                <div class="progress-bar progress-bar-striped" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width:{{tuan.progress}}%"></div>
-                            </div>
-                        </td>
-                        <td><a href="{% url 'detail' tuan.id %}"> detail </a></td>
-                        <td><input type='submit' value='join'><input type='text' name='vote_id' value='{{tuan.id}}' style="display: none;"></td>
-                    </tr>
-                </form>
-                {% endfor %}
-            </table>
-            {% paginate %}
-        </div>
+      </div>
     </div>
+
+    <div style="padding-left: 15px; padding-right: 15px">
+      <table class="table table-striped">
+        <tr>
+          <th> initiator </th>
+          <th> resturant name </th>
+          <th> min participants </th>
+          <th> max participants </th>
+          <th> crrent participants </th>
+          <th> date </th>
+          <th> progress </th>
+          <th> detail </th>
+          <th> action </th>
+        </tr>
+        {% autopaginate tuan_list 5 %}
+        {% for tuan in tuan_list %}
+        <form action='vote' method='POST'>
+          {% csrf_token %}
+          <tr>
+            <td> {{tuan.initiator}}</td>
+            <td> {{tuan.rest_name}}</td>
+            <td> {{tuan.min_num}}</td>
+            <td> {{tuan.max_num}}</td>
+            <td> {{tuan.current_num}}</td>
+            <td> {{tuan.start_time}}</td>
+            <td>
+              <div class="progress">
+                <div class="progress-bar progress-bar-striped" role="progressbar" aria-valuenow="60"
+                    aria-valuemin="0" aria-valuemax="100" style="width:{% widthratio tuan.current_num tuan.max_num 100 %}%"></div>
+              </div>
+            </td>
+            <td><a href="{% url 'detail' tuan.id %}"> detail </a></td>
+            <td><input type='submit' value='join'><input type='text' name='vote_id' value='{{tuan.id}}' style="display: none;"></td>
+          </tr>
+        </form>
+        {% endfor %}
+      </table>
+      {% paginate %}
+    </div>
+  </div>
 </div>
 {% endblock %}
