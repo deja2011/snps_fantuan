@@ -6,11 +6,25 @@
 
 {% block body_block %}
 
-<div class="container theme-showcase" role="main">
-  <!-- Main jumbotron for a primary marketing message or call to action -->
-  <div class="jumbotron" style="background-color: #EFCC05">
-    <h1><strong>Fan Tuan</strong></h1>
-    <p>This is an amazing Yue Fan app inside Synopsys. Just <strong>Yue</strong> it!!</p>
+  <div class="container theme-showcase" role="main">
+    <div class="jumbotron" style="background-color: #FF8000">
+      <h1><strong>Fan Tuan</strong></h1>
+      <p>This is an amazing Yue Fan app inside Synopsys. Just <strong>Yue</strong> it!!</p>
+    </div>
+    <div id="myCarousel" class="carousel slide">
+    <ol class="carousel-indicators">
+      <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+      <li data-target="#myCarousel" data-slide-to="1"></li>
+      <li data-target="#myCarousel" data-slide-to="2"></li>
+    </ol>
+
+    <div class="carousel-inner">
+        <div class="active item"><center><img src="http://gb.cri.cn/mmsource/images/2006/07/18/wc060718072.jpg" atl="404040"></center></div>
+        <div class="item"><center><img src="http://pic76.nipic.com/file/20150829/19521820_194857339000_2.jpg" atl=""></center></div>
+        <div class="item"><center><img src="http://h8.86.cc/walls/20150709/1024x768_4897448092f6096.jpg" atl=""></center></div>
+    </div>
+    <a class="carousel-control left" href="#myCarousel" data-slide="prev">&lsaquo;</a>
+    <a class="carousel-control right" href="#myCarousel" data-slide="next">&rsaquo;</a>
   </div>
 
   <div class="alert {{alert_type}}" role="alert">
