@@ -5,6 +5,10 @@
 {% load pagination_tags %}
 
 {% block body_block %}
+    <head>
+        <link rel="stylesheet" href="{% static 'bootstrap/bootstrap-table-master/src/bootstrap-table.css' %}">
+        <script type="text/javascript" src="{% static 'bootstrap/bootstrap-table-master/src/bootstrap-table.js'%}"></script>
+    </head>
 
   <div class="container theme-showcase" role="main">
     <div class="jumbotron" style="background-color: #FF8000">
@@ -41,18 +45,20 @@
     </div>
 
     <div style="padding-left: 15px; padding-right: 15px">
-      <table class="table table-striped">
+      <table class="table table-striped" class="table table-striped" data-toggle="table" data-sort-name="date" data-sort-order="desc" data-query-params="queryParams" data-pagination="true" data-search="true" data-show-refresh="true" data-show-toggle="true" data-show-columns="true">
+      <thead>
         <tr>
-          <th> initiator </th>
-          <th> resturant name </th>
-          <th> min participants </th>
-          <th> max participants </th>
-          <th> crrent participants </th>
-          <th> date </th>
-          <th> progress </th>
+          <th data-sortable="true" data-field="initiator"> initiator </th>
+          <th data-sortable="true" data-field="resturant_name"> resturant name </th>
+          <th data-sortable="true" data-field="min_participants"> min participants </th>     
+          <th data-sortable="true" data-field="max_participants"> max participants </th>     
+          <th data-sortable="true" data-field="current_participants"> crrent participants </th>     
+          <th data-sortable="true" data-field="date"> date </th>
+          <th data-sortable="true" data-field="progress"> progress </th>
           <th> detail </th>
           <th> action </th>
         </tr>
+      </thead>
         {% autopaginate tuan_list 5 %}
         {% for tuan in tuan_list %}
         <form action='vote' method='POST'>
