@@ -24,6 +24,17 @@ def index(request):
     alert_type = "alert-info"
     tuan_list = Tuan.objects.all()
     user = request.user
+    if request.user.is_authenticated():
+        person = Person.objects.get(user=user)
+        for tuan in tuan_list:
+            if tuan in person.joined_tuan.all():
+                tuan.joined = True
+            else:
+                tuan.joined = False
+    else:
+        for tuan in tuan_list:
+            tuan.joined = False
+    
     active_page = "Home"
     return render_to_response('index.html', locals() , context_instance = RequestContext(request))
 
@@ -37,6 +48,9 @@ def create_tuan(request):
                 tuan = form.save(commit = False)
                 tuan.initiator = request.user.username
                 tuan.save()
+                person = Person.objects.get(user=request.user)
+                person.joined_tuan.add(tuan)
+                person.save()
                 return HttpResponseRedirect('/')
             else:
                 warning1, warning2, alert_type = (
@@ -106,28 +120,40 @@ def vote(request):
     warning2 = 'for vote'
     alert_type = "alert-info"
     vote_id = int(request.POST['vote_id'])
+    vote_type = request.POST['vote_type']
+    referer = request.META['HTTP_REFERER']
     user = request.user
 
     upd_tuan = Tuan.objects.get(id=vote_id)
     upd_current_num = int(upd_tuan.current_num)
     upd_min_num = int(upd_tuan.min_num)
     upd_max_num = int(upd_tuan.max_num)
-    if upd_current_num == upd_max_num:
-        warning1 = "Dear Qin!"
-        warning2 = "This Tuan is full now... Please choose another one~"
-        alert_type = "alert-danger"
+    if vote_type == "join":
+        if upd_current_num == upd_max_num:
+            warning1 = "Dear Qin!"
+            warning2 = "This Tuan is full now... Please choose another one~"
+            alert_type = "alert-danger"
+        else:
+            upd_current_num += 1
+            Tuan.objects.filter(id=vote_id).update(current_num=upd_current_num)
+            upd_user = Person.objects.get(user_id=user.id)
+            upd_user.joined_tuan.add(upd_tuan)
+            upd_user.save()
+            warning1 =  "Dear!"
+            warning2 =  "Vote successed!"
+            alert_type = "alert-success"
     else:
-        upd_current_num += 1
+        upd_current_num -= 1
         Tuan.objects.filter(id=vote_id).update(current_num=upd_current_num)
         upd_user = Person.objects.get(user_id=user.id)
-        upd_user.joined_tuan.add(upd_tuan)
+        upd_user.joined_tuan.remove(upd_tuan)
         upd_user.save()
         warning1 =  "Dear!"
         warning2 =  "Vote successed!"
         alert_type = "alert-success"
     tuan_list = Tuan.objects.all()
     active_page = "Home"
-    return render_to_response('index.html', locals(), context_instance = RequestContext(request))
+    return HttpResponseRedirect(referer)
 
 
 def delete_tuan(request):
