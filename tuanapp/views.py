@@ -34,7 +34,7 @@ def index(request):
     else:
         for tuan in tuan_list:
             tuan.joined = False
-    
+
     active_page = "Home"
     return render_to_response('index.html', locals() , context_instance = RequestContext(request))
 
