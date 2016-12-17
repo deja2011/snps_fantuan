@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 
 class Tuan (models.Model):
     rest_name = models.CharField(max_length = 50, verbose_name ="restaurant name")
-    min_num = models.IntegerField(verbose_name = "mix participates")
+    min_num = models.IntegerField(verbose_name = "min participates")
     max_num = models.IntegerField(verbose_name = "max participates")
     current_num = models.IntegerField(default = 0)
     initiator = models.CharField(default = '', max_length= 50)
