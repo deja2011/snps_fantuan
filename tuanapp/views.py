@@ -1,13 +1,16 @@
 
 from datetime import datetime
+import pytz
 
 from django.shortcuts import render, render_to_response
 from django.template import RequestContext
 from django.http import HttpResponseRedirect, HttpResponse, Http404
-from tuanapp.models import Tuan, Person, Comment
-from tuanapp.forms import TuanForm
 from django.contrib import auth
 from django.contrib.auth.models import User
+from django.utils import timezone
+
+from tuanapp.models import Tuan, Person, Comment
+from tuanapp.forms import TuanForm
 
 def user_authenticated(func):
     def handle_args(request):
@@ -44,7 +47,19 @@ def create_tuan(request):
     if request.method == 'POST':
         form = TuanForm(request.POST)
         if form.is_valid():
-            if form.cleaned_data["min_num"] <= form.cleaned_data["max_num"]:
+            if form.cleaned_data["min_num"] > form.cleaned_data["max_num"]:
+                warning1, warning2, alert_type = (
+                    "Dear Qin!",
+                    "Failed to create new tuan: Min participates exceeded max participates.",
+                    "alert-danger",
+                )
+            elif form.cleaned_data["start_time"] <= timezone.now():
+                warning1, warning2, alert_type = (
+                    "Dear Qin!",
+                    "Failed to create new tuan: Proposed Tuan date is already past.",
+                    "alert-danger",
+                )
+            else:
                 tuan = form.save(commit = False)
                 tuan.initiator = request.user.username
                 tuan.save()
@@ -52,12 +67,6 @@ def create_tuan(request):
                 person.joined_tuan.add(tuan)
                 person.save()
                 return HttpResponseRedirect('/')
-            else:
-                warning1, warning2, alert_type = (
-                    "Dear Qin!",
-                    "Failed to create new tuan: Min participates exceeded max participates.",
-                    "alert-danger",
-                )
         else:
             warning1, warning2, alert_type = (
                 "Dear Qin!",

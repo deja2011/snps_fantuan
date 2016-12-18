@@ -9,7 +9,7 @@ class Tuan (models.Model):
     max_num = models.IntegerField(verbose_name = "max participates")
     current_num = models.IntegerField(default = 0)
     initiator = models.CharField(default = '', max_length= 50)
-    start_time = models.CharField(max_length = 50, verbose_name = "start time")
+    start_time = models.DateTimeField(verbose_name = "start time")
     create_time = models.DateTimeField(default = timezone.now)
 
 
